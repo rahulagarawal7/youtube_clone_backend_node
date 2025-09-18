@@ -5,20 +5,39 @@ import jwt from "jsonwebtoken";
 //register new User
 export const register = async (req, res) => {
   try {
-    const { username, email, password } = req.body;
+    const { fullName, email, password } = req.body;
 
+    // 1. Check if user already exists
     const exist = await User.findOne({ email });
-    if (exist) return res.status(400).json({ message: "User already exist" });
+    if (exist) {
+      return res.status(400).json({
+        success: false,
+        message: "User already exists",
+      });
+    }
 
+    // 2. Hash password
     const hashed = await bcrypt.hash(password, 10);
+
+    // 3. Save user
     const user = await User.create({
-      username,
+      fullName,
       email,
       password: hashed,
     });
-    res.status(200).json({ message: "User registered" });
+
+    // 4. Return success response
+    res.status(201).json({
+      success: true,
+      message: "User registered successfully",
+    });
   } catch (error) {
-    res.status(500).json({ error: error.message });
+    console.error("Register Error:", error);
+    res.status(500).json({
+      success: false,
+      message: "Server error",
+      error: error.message,
+    });
   }
 };
 
@@ -26,7 +45,6 @@ export const register = async (req, res) => {
 export const login = async (req, res) => {
   try {
     const { email, password } = req.body;
-
     const user = await User.findOne({ email });
     if (!user) return res.status(400).json({ message: "user not found " });
 
@@ -37,6 +55,7 @@ export const login = async (req, res) => {
       expiresIn: "7d",
     });
     res.json({
+      success: true,
       message: "Login successful",
       token,
       user: user,
@@ -48,5 +67,8 @@ export const login = async (req, res) => {
 
 // Logout user
 export const logout = (req, res) => {
-  res.json({ message: "Logout successful (remove token client-side)" });
+  return res.status(200).json({
+    success: true,
+    message: "Logout successful.",
+  });
 };
