@@ -72,3 +72,29 @@ export const logout = (req, res) => {
     message: "Logout successful.",
   });
 };
+
+export const getUser = async (req, res) => {
+  try {
+    // req.user will come from your `protect` middleware
+    const user = await User.findById(req.user._id).select("-password");
+
+    if (!user) {
+      return res.status(404).json({
+        success: false,
+        message: "User not found",
+      });
+    }
+
+    res.status(200).json({
+      success: true,
+      user,
+    });
+  } catch (error) {
+    console.error("Get User Error:", error);
+    res.status(500).json({
+      success: false,
+      message: "Server error",
+      error: error.message,
+    });
+  }
+};
