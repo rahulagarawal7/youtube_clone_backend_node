@@ -20,6 +20,11 @@ const videoSchema = new mongoose.Schema(
       required: true,
       unique: true,
     },
+    category: {
+      type: String,
+      required: true,
+      trim: true,
+    },
     channel: {
       type: mongoose.Schema.Types.ObjectId,
       ref: "Channel",
