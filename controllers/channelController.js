@@ -65,13 +65,11 @@ export const updateChannel = async (req, res) => {
         new: true,
       }
     );
-    res
-      .status(200)
-      .json({
-        success: true,
-        message: "Channel Updated Successfully",
-        channel: updated,
-      });
+    res.status(200).json({
+      success: true,
+      message: "Channel Updated Successfully",
+      channel: updated,
+    });
   } catch (error) {
     res.status(500).json({ success: false, message: error.message });
   }
@@ -102,5 +100,46 @@ export const getAllChannels = async (req, res) => {
     res.json({ success: true, count: channels.length, channels });
   } catch (error) {
     res.status(500).json({ success: false, message: error.message });
+  }
+};
+
+export const toggleSubscription = async (req, res) => {
+  try {
+    const { channelId } = req.params;
+    const userId = req.user._id; // from JWT middleware
+
+    const channel = await Channel.findById(channelId);
+    if (!channel) {
+      return res.status(404).json({ message: "Channel not found!!" });
+    }
+
+    console.log("")
+
+    // ✅ Prevent subscribing to own channel
+    if (channel?.user?.toString() === userId?.toString()) {
+      return res.status(400).json({
+        success: true,
+        message: "You cannot subscribe to your own channel",
+      });
+    }
+
+    // check if user already subscribed
+    const isSubscribed = channel.subscribers.includes(userId);
+
+    if (isSubscribed) {
+      // unsubscribe
+      channel.subscribers.pull(userId);
+      await channel.save();
+      return res.json({ success: true, message: "Unsubscribed successfully" });
+    } else {
+      // subscribe
+      channel.subscribers.push(userId);
+      await channel.save();
+      return res.json({ success: true, message: "Subscribed successfully" });
+    }
+  } catch (error) {
+    res
+      .status(500)
+      .json({ success: false, message: error.message, error: error.message });
   }
 };

@@ -3,6 +3,7 @@ import {
   createChannel,
   getAllChannels,
   getChannelById,
+  toggleSubscription,
   updateChannel,
 } from "../controllers/channelController.js";
 import { protect } from "../middleware/authMiddleware.js";
@@ -16,5 +17,6 @@ router.put("/:id", protect, updateChannel);
 // anyone can view channels
 router.get("/", getAllChannels);
 router.post("/", protect, createChannel);
+router.post("/:channelId/subscribe", protect, toggleSubscription);
 
 export default router;

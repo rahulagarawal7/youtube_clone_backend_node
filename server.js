@@ -5,7 +5,8 @@ import connectDB from "./config/db.js";
 
 import authRoutes from "./routes/authRoutes.js";
 import channelRouters from "./routes/channelRoutes.js";
-import videoRouters from './routes/videoRoutes.js'
+import videoRouters from "./routes/videoRoutes.js";
+import commentRoutes from "./routes/commentRoutes.js";
 
 dotenv.config();
 
@@ -20,6 +21,7 @@ connectDB();
 app.use("/api/auth", authRoutes);
 app.use("/api/channels", channelRouters);
 app.use("/api/videos", videoRouters);
+app.use("/api/comments", commentRoutes);
 
 const PORT = process.env.PORT || 5000;
 app.listen(PORT, () => console.log(`🚀 Server running on port ${PORT}`));
