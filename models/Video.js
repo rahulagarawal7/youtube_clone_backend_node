@@ -16,9 +16,8 @@ const videoSchema = new mongoose.Schema(
       required: true,
     },
     videoID: {
-      type: String, // could be file path, cloud storage ID, or YouTube-like ID
+      type: String, 
       required: true,
-      unique: true,
     },
     category: {
       type: String,

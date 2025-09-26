@@ -172,13 +172,13 @@ export const getVideoById = async (req, res) => {
 };
 
 export const getVideosByCategory = async (req, res) => {
-
   try {
     const { category } = req.params;
 
- 
     if (!category) {
-      return res.status(400).json({ success: false, message: "Category is required" });
+      return res
+        .status(400)
+        .json({ success: false, message: "Category is required" });
     }
 
     let videos;
@@ -196,7 +196,7 @@ export const getVideosByCategory = async (req, res) => {
     }
 
     if (!videos || videos.length === 0) {
-      return res.status(404).json({
+      return res.status(200).json({
         success: false,
         message:
           category.toLowerCase() === "all"
@@ -220,11 +220,10 @@ export const getVideosByCategory = async (req, res) => {
   }
 };
 
-
 // Search videos by title
 export const searchVideos = async (req, res) => {
   try {
-    const { query } = req.params; 
+    const { query } = req.params;
 
     if (!query) {
       return res.status(400).json({
