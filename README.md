@@ -128,3 +128,9 @@ npm start
 - **GET /api/channels/:id** → Get channel by ID (protected)
 - **PUT /api/channels/:id** → Update channel (protected)
 - **POST /api/channels/:channelId/subscribe** → Subscribe/Unsubscribe to channel (protected)
+
+### Add .env in root folder in your project.
+PORT=3000
+MONGO_URI=URL
+JWT_SECRET=Key
+
