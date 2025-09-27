@@ -53,7 +53,7 @@ youtube_clone_backend/
 ### 1️⃣ Clone the repository
 
 ```bash
-git clone https://github.com/your-username/youtube_clone_backend.git
+git clone https://github.com/rahulagarawal7/youtube_clone_backend_node
 cd youtube_clone_backend
 
 ```
@@ -67,8 +67,9 @@ npm install
 
 ### 3️⃣ Configure environment variables
 
-Create a `.env` file in the root of the project:
-
+Create a `.env`  file in the root of the project:
+`.env` - for Uat 
+`.env.production` - for production
 ```
 PORT=5000
 MONGO_URI=your-mongodb-connection-string
@@ -76,12 +77,32 @@ JWT_SECRET=your-secret-key
 
 ```
 
-### 4️⃣ Start the server
+4️⃣ Start the Server
+-- Development
 
-```bash
-npm start
+Runs with nodemon (auto-restarts on file changes) using .env.
 
 ```
+npm run dev
+
+```
+
+-- UAT (User Acceptance Testing)
+Runs with node using .env.
+
+```
+npm run start:uat
+
+```
+
+-- Production
+Runs with node using .env.production.
+
+```
+npm run start:prod
+
+```
+
 
 > Server runs at: http://localhost:5000 (or your specified PORT)
 > 
@@ -129,8 +150,5 @@ npm start
 - **PUT /api/channels/:id** → Update channel (protected)
 - **POST /api/channels/:channelId/subscribe** → Subscribe/Unsubscribe to channel (protected)
 
-### Add .env in root folder in your project.
-PORT=3000
-MONGO_URI=URL
-JWT_SECRET=Key
+
 
