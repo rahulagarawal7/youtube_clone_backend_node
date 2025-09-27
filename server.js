@@ -11,10 +11,7 @@ import commentRoutes from "./routes/commentRoutes.js";
 dotenv.config();
 
 const app = express();
-app.use(cors({
-  origin: ["https://youtube-clone-taupe-two.vercel.app/"], 
-  credentials: true
-}));
+app.use(cors());
 
 app.use(express.json());
 
